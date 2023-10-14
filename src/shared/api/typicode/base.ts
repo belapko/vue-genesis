@@ -4,6 +4,7 @@ const LOCAL_STORAGE_TOKEN_KEY = 'access_token'
 const LOCAL_STORAGE_DOMAIN_KEY = 'base_domain'
 
 const MAIN_DOMAIN = 'https://nest-genesis.vercel.app'
+const LOCALHOST_DOMAIN = 'http://localhost:3000'
 
 const authInstance = axios.create({
   baseURL: MAIN_DOMAIN,
