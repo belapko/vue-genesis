@@ -3,8 +3,10 @@ import axios from 'axios'
 const LOCAL_STORAGE_TOKEN_KEY = 'access_token'
 const LOCAL_STORAGE_DOMAIN_KEY = 'base_domain'
 
+const MAIN_DOMAIN = 'https://nest-genesis.vercel.app'
+
 const authInstance = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: MAIN_DOMAIN,
   headers: {
     'Content-Type': 'application/json',
     'X-Client-Id': 31334466
@@ -13,7 +15,7 @@ const authInstance = axios.create({
 })
 
 export const instance = axios.create({
-  baseURL: `http://localhost:3000/entity/${localStorage.getItem(LOCAL_STORAGE_DOMAIN_KEY)}`,
+  baseURL: `${MAIN_DOMAIN}/entity/${localStorage.getItem(LOCAL_STORAGE_DOMAIN_KEY)}`,
   headers: {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY)}`
