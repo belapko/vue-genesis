@@ -3,14 +3,14 @@ import axios from 'axios'
 const LOCAL_STORAGE_TOKEN_KEY = 'access_token'
 const LOCAL_STORAGE_DOMAIN_KEY = 'base_domain'
 
-const MAIN_DOMAIN = 'https://nest-genesis.vercel.app'
+const MAIN_DOMAIN = import.meta.env.VITE_PRODUCTION_API
 // const LOCALHOST_DOMAIN = 'http://localhost:3000'
 
 const authInstance = axios.create({
   baseURL: MAIN_DOMAIN,
   headers: {
     'Content-Type': 'application/json',
-    'X-Client-Id': 31334466
+    'X-Client-Id': import.meta.env.VITE_X_CLIENT_ID
   },
   method: 'GET'
 })
