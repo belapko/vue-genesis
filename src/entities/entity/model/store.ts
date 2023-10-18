@@ -11,7 +11,9 @@ export const useEntityStore = defineStore('companies', () => {
     isEntityLoading.value = true
     try {
       // Пытаемя создать сущность. В случае успеха добавляем в стор {id, название} новой сущности
-      const { data } = await typicodeApi.entities.createEntity(url)
+      const { data } = await typicodeApi.entities.createEntity(
+        `${localStorage.getItem(import.meta.env.VITE_LOCAL_STORAGE_DOMAIN_KEY) || ''}/${url as string}`
+      )
       const id: number = data
       entitiesList.value = [
         ...entitiesList.value,

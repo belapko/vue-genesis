@@ -1,8 +1,7 @@
 import type { AxiosPromise } from "axios"
 import { instance } from "./base"
-import type { EntityOptions } from "./models"
 
 // Роут для создания сущности
-export const createEntity = (url: keyof EntityOptions): AxiosPromise => {
-    return instance.post(url as string, [])
+export const createEntity = (url: string): AxiosPromise => {
+    return instance.post(url, [])
 }

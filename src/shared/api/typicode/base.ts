@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 const LOCAL_STORAGE_TOKEN_KEY = 'access_token'
-const LOCAL_STORAGE_DOMAIN_KEY = 'base_domain'
 
 const MAIN_DOMAIN = import.meta.env.VITE_PRODUCTION_API
 // const LOCALHOST_DOMAIN = 'http://localhost:3000'
@@ -16,12 +15,24 @@ const authInstance = axios.create({
 })
 
 export const instance = axios.create({
-  baseURL: `${MAIN_DOMAIN}/entity/${localStorage.getItem(LOCAL_STORAGE_DOMAIN_KEY)}`,
+  baseURL: `${MAIN_DOMAIN}/entity`,
   headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY)}`
+    'Content-Type': 'application/json'
   }
 })
+
+instance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY)
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
 
 // Обработка ошибки отправки запроса. В случае ошибки пытаемся обновить access token
 instance.interceptors.response.use(
@@ -35,7 +46,7 @@ instance.interceptors.response.use(
       try {
         const response = await authInstance.get('/oauth')
         localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, response.data.access_token)
-        localStorage.setItem(LOCAL_STORAGE_DOMAIN_KEY, response.data.base_domain)
+        localStorage.setItem(import.meta.env.VITE_LOCAL_STORAGE_DOMAIN_KEY, response.data.base_domain)
         return instance.request(originalRequest)
       } catch (e) {
         console.log('Auth error')
